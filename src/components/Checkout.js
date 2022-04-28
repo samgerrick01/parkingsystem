@@ -2,13 +2,17 @@ import React, { useState, useEffect } from "react";
 import { MdArrowBackIos } from "react-icons/md";
 import Clock from "react-clock";
 import "react-clock/dist/Clock.css";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { addParking } from "../reducers/parkingSlice";
 import { nanoid } from "@reduxjs/toolkit";
 import { static_variables } from "../environment";
+import { pakingSelector } from "../reducers/parkingSlice";
 
 const Checkout = () => {
+  let { id } = useParams();
+  const parkingSlot = useSelector(pakingSelector);
+  console.log(parkingSlot);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [value, setValue] = useState(new Date());

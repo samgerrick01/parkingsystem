@@ -28,7 +28,12 @@ const HomePage = () => {
         <ul className="ul-list">
           {parkingSlot.map((parking) => {
             return (
-              <li key={parking.id}>
+              <li
+                key={parking.id}
+                onClick={() => {
+                  navigate(`/checkout/${parking.id}`);
+                }}
+              >
                 {parking.VehiclePlate}
                 <br />
                 {parking.Date}

@@ -151,8 +151,8 @@ const AddParking = () => {
                 </option>
                 <option
                   hidden={
-                    formData.VehicleSize === "Medium" ||
-                    formData.VehicleSize === "Large"
+                    formData.VehicleSize === "MEDIUM" ||
+                    formData.VehicleSize === "LARGE"
                       ? true
                       : false
                   }
