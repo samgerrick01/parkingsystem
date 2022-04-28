@@ -23,8 +23,12 @@ const AddParking = () => {
   var today = new Date();
   var date =
     today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
-  var time =
-    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  let hours = today.getHours() < 9 ? "0" + today.getHours() : today.getHours();
+  let minutes =
+    today.getMinutes() < 9 ? "0" + today.getMinutes() : today.getMinutes();
+  let seconds =
+    today.getSeconds() < 9 ? "0" + today.getSeconds() : today.getSeconds();
+  var time = hours + ":" + minutes + ":" + seconds;
   var dateTime = date + " " + time;
 
   const [formData, setFormData] = useState({
@@ -34,6 +38,12 @@ const AddParking = () => {
     ParkingSize: "",
     Date: dateTime,
     Fee: "",
+    Year: today.getFullYear(),
+    Month: today.getMonth() + 1,
+    Day: today.getDate(),
+    Hours: today.getHours(),
+    Minutes: today.getMinutes(),
+    Seconds: today.getSeconds(),
   });
   const clear = () => {
     setFormData({

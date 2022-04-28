@@ -11,6 +11,7 @@ const Checkout = () => {
   let { id } = useParams();
   const parkingSlot = useSelector(pakingSelector);
   var found = parkingSlot.parkingSlot.find((e) => e.id === id);
+  console.log(found);
   const navigate = useNavigate();
   const [value, setValue] = useState(new Date());
   useEffect(() => {
@@ -39,6 +40,27 @@ const Checkout = () => {
     navigate("/");
   };
 
+  var today = new Date();
+  var date =
+    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+  let hours = today.getHours() < 9 ? "0" + today.getHours() : today.getHours();
+  let minutes =
+    today.getMinutes() < 9 ? "0" + today.getMinutes() : today.getMinutes();
+  let seconds =
+    today.getSeconds() < 9 ? "0" + today.getSeconds() : today.getSeconds();
+  var time = hours + ":" + minutes + ":" + seconds;
+  var dateTime = date + " " + time;
+
+  const charges =
+    today.getFullYear() -
+    found.Year +
+    today.getMonth() +
+    1 -
+    found.Month +
+    today.getDate() -
+    found.Day;
+  const charges_hours = today.getHours() - found.Hours;
+  const TotalCharges = charges + charges_hours > 3 ? 3 - charges_hours : 0;
   return (
     <div className="home-body">
       <div className="home-title">
@@ -61,14 +83,14 @@ const Checkout = () => {
           <div className="data">
             <div className="input_1">
               <label>Vehicle Plate No. : </label>
-              <label>{formData.VehiclePlate}</label>
+              <label>{formData.VehiclePlate.toUpperCase()}</label>
             </div>
             <div className="input_1">
               <label>Vehicle Size : </label>
               <label>{formData.VehicleSize}</label>
             </div>
             <div className="input_1">
-              <label>Vehicle Size : </label>
+              <label>Parking Size : </label>
               <label>{formData.ParkingSize}</label>
             </div>
             <div className="input_1">
@@ -78,6 +100,26 @@ const Checkout = () => {
             <div className="input_1">
               <label>Fee : </label>
               <label>{formData.Fee}</label>
+            </div>
+            <div className="input_1">
+              <label>Date & Time Now : </label>
+              <label>{dateTime}</label>
+            </div>
+            <div className="input_1">
+              <label>Additional Charges : </label>
+              <label>
+                {found.ParkingSize === "SMALL"
+                  ? TotalCharges * 20
+                  : found.ParkingSize === "MEDIUM"
+                  ? TotalCharges * 60
+                  : found.ParkingSize === "LARGE"
+                  ? TotalCharges * 100
+                  : TotalCharges}
+              </label>
+            </div>
+            <div className="input_1">
+              <label>Total Amount : </label>
+              <label>{formData.Fee + charges}</label>
             </div>
           </div>
 
