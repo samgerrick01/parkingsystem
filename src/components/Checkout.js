@@ -3,18 +3,15 @@ import { MdArrowBackIos } from "react-icons/md";
 import Clock from "react-clock";
 import "react-clock/dist/Clock.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { addParking } from "../reducers/parkingSlice";
+import { useSelector } from "react-redux";
 import { nanoid } from "@reduxjs/toolkit";
-import { static_variables } from "../environment";
 import { pakingSelector } from "../reducers/parkingSlice";
 
 const Checkout = () => {
   let { id } = useParams();
   const parkingSlot = useSelector(pakingSelector);
-  console.log(parkingSlot);
+  var found = parkingSlot.parkingSlot.find((e) => e.id === id);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [value, setValue] = useState(new Date());
   useEffect(() => {
     const interval = setInterval(() => setValue(new Date()), 1000);
@@ -23,42 +20,23 @@ const Checkout = () => {
       clearInterval(interval);
     };
   }, []);
-  var today = new Date();
-  var date =
-    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
-  var time =
-    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  var dateTime = date + " " + time;
   const [formData, setFormData] = useState({
     id: nanoid(),
-    VehiclePlate: "",
-    VehicleSize: "",
-    ParkingSize: "",
-    Date: dateTime,
-    Fee: static_variables.COST.SMALL,
+    VehiclePlate: found.VehiclePlate,
+    VehicleSize: found.VehicleSize,
+    ParkingSize: found.ParkingSize,
+    Date: found.Date,
+    Fee: found.Fee,
   });
-  const clear = () => {
+  const handleSubmit = () => {
     setFormData({
       VehiclePlate: "",
       VehicleSize: "",
       ParkingSize: "",
-      Date: dateTime,
+      Date: "",
+      Fee: "",
     });
-  };
-  const [err, setErr] = useState("");
-  const handleSubmit = () => {
-    if (
-      !formData.VehiclePlate ||
-      !formData.ParkingSize ||
-      !formData.VehicleSize
-    ) {
-      setErr("Please Input a Vehicle Plate No.");
-    } else {
-      dispatch(addParking(formData));
-      navigate("/");
-      clear();
-      setErr("");
-    }
+    navigate("/");
   };
   return (
     <div className="home-body">
@@ -79,85 +57,32 @@ const Checkout = () => {
           <h1>Add Vehicle Here</h1>
           <Clock value={value} />
           <br />
-          {err && (
-            <span
-              className="mb-20px"
-              style={{ color: "red", fontSize: "14px" }}
-            >
-              {err}
-            </span>
-          )}
-          <div className="input_1">
-            <label>Vehicle Plate No. : </label>
-            <input
-              autoComplete="off"
-              value={formData.VehiclePlate}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  VehiclePlate: e.target.value.trimStart(),
-                })
-              }
-              type="text"
-              name="lname"
-              placeholder=""
-              required
-            />
-            <div className="input_2">
-              <select
-                className="select mt-20px"
-                onChange={(e) => {
-                  setFormData({
-                    ...formData,
-                    VehicleSize: e.target.value,
-                    ParkingSize: "",
-                  });
-                }}
-                value={formData.VehicleSize}
-              >
-                <option hidden value="">
-                  Vehicle Size
-                </option>
-                <option value="Small">Small</option>
-                <option value="Medium">Medium</option>
-                <option value="Large">Large</option>
-              </select>
+          <div className="data">
+            <div className="input_1">
+              <label>Vehicle Plate No. : </label>
+              <label>{formData.VehiclePlate}</label>
             </div>
-            <div className="input_3">
-              <select
-                className="select mt-20px"
-                onChange={(e) =>
-                  setFormData({ ...formData, ParkingSize: e.target.value })
-                }
-                value={formData.ParkingSize}
-              >
-                <option hidden value="">
-                  Parking Size
-                </option>
-                <option
-                  hidden={
-                    formData.VehicleSize === "Medium" ||
-                    formData.VehicleSize === "Large"
-                      ? true
-                      : false
-                  }
-                  value="Small"
-                >
-                  Small
-                </option>
-                <option
-                  hidden={formData.VehicleSize === "Large" ? true : false}
-                  value="Medium"
-                >
-                  Medium
-                </option>
-                <option value="Large">Large</option>
-              </select>
+            <div className="input_1">
+              <label>Vehicle Size : </label>
+              <label>{formData.VehicleSize}</label>
+            </div>
+            <div className="input_1">
+              <label>Vehicle Size : </label>
+              <label>{formData.ParkingSize}</label>
+            </div>
+            <div className="input_1">
+              <label>Date & Time Parked : </label>
+              <label>{formData.Date}</label>
+            </div>
+            <div className="input_1">
+              <label>Fee : </label>
+              <label>{formData.Fee}</label>
             </div>
           </div>
-          <div className="input_2">
-            <button onClick={handleSubmit} className="btn-add mt-20px">
-              Park
+
+          <div className="input_1">
+            <button onClick={handleSubmit} className="btn-del mt-20px">
+              Check-out
             </button>
           </div>
         </div>

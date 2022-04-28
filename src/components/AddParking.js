@@ -35,7 +35,6 @@ const AddParking = () => {
     Date: dateTime,
     Fee: "",
   });
-  console.log(formData.Fee);
   const clear = () => {
     setFormData({
       VehiclePlate: "",

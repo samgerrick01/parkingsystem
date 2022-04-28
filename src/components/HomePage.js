@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 const HomePage = () => {
   const navigate = useNavigate();
   const { parkingSlot } = useSelector(pakingSelector);
-  console.log(parkingSlot);
   return (
     <div className="home-body">
       <div className="home-title">
