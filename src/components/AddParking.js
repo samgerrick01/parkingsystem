@@ -85,7 +85,7 @@ const AddParking = () => {
               {err}
             </span>
           )}
-          <div className="input_1">
+          <div className="input_2">
             <label>Vehicle Plate No. : </label>
             <input
               autoComplete="off"
@@ -121,7 +121,7 @@ const AddParking = () => {
                 <option value="LARGE">LARGE</option>
               </select>
             </div>
-            <div className="input_3">
+            <div className="input_2">
               <select
                 className="select mt-20px"
                 onChange={(e) => {
@@ -160,7 +160,7 @@ const AddParking = () => {
                   SMALL
                 </option>
                 <option
-                  hidden={formData.VehicleSize === "Large" ? true : false}
+                  hidden={formData.VehicleSize === "LARGE" ? true : false}
                   value="MEDIUM"
                 >
                   MEDIUM

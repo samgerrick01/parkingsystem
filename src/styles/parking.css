@@ -195,3 +195,7 @@ h1 {
   display: flex;
   justify-content: space-between;
 }
+.input_2 {
+  font-size: 20px;
+  font-weight: 900;
+}

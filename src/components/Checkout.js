@@ -38,6 +38,7 @@ const Checkout = () => {
     });
     navigate("/");
   };
+
   return (
     <div className="home-body">
       <div className="home-title">
@@ -54,7 +55,7 @@ const Checkout = () => {
             </label>
           </div>
 
-          <h1>Add Vehicle Here</h1>
+          <h1>Check-out Vehicle Here</h1>
           <Clock value={value} />
           <br />
           <div className="data">
