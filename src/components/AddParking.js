@@ -4,12 +4,10 @@ import Clock from "react-clock";
 import "react-clock/dist/Clock.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { addParking } from "../reducers/parkingSlice";
 import { nanoid } from "@reduxjs/toolkit";
-import { static_variables } from "../environment";
+import { addParking } from "../components/action/action";
 
 const AddParking = () => {
-  const { SMALL, MEDIUM, LARGE } = static_variables.COST;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [value, setValue] = useState(new Date());
@@ -37,7 +35,7 @@ const AddParking = () => {
     VehicleSize: "",
     ParkingSize: "",
     Date: dateTime,
-    Fee: "",
+    Fee: 40,
     Year: today.getFullYear(),
     Month: today.getMonth() + 1,
     Day: today.getDate(),
@@ -51,10 +49,13 @@ const AddParking = () => {
       VehicleSize: "",
       ParkingSize: "",
       Date: dateTime,
+      Fee: "",
     });
   };
   const [err, setErr] = useState("");
-  const handleSubmit = () => {
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (
       !formData.VehiclePlate ||
       !formData.ParkingSize ||
@@ -140,19 +141,19 @@ const AddParking = () => {
                     ParkingSize: e.target.value,
                   });
                 }}
-                onBlur={() => {
-                  setFormData({
-                    ...formData,
-                    Fee:
-                      formData.ParkingSize === "SMALL"
-                        ? SMALL
-                        : formData.ParkingSize === "MEDIUM"
-                        ? MEDIUM
-                        : formData.ParkingSize === "LARGE"
-                        ? LARGE
-                        : null,
-                  });
-                }}
+                // onBlur={() => {
+                //   setFormData({
+                //     ...formData,
+                //     Fee:
+                //       formData.ParkingSize === "SMALL"
+                //         ? SMALL
+                //         : formData.ParkingSize === "MEDIUM"
+                //         ? MEDIUM
+                //         : formData.ParkingSize === "LARGE"
+                //         ? LARGE
+                //         : null,
+                //   });
+                // }}
                 value={formData.ParkingSize}
               >
                 <option hidden value="">

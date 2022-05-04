@@ -1,0 +1,46 @@
+{
+  "parkings": [
+    {
+      "id": "OLuRCK4EgZ65V4iCHlgpy",
+      "VehiclePlate": "sara 2022",
+      "VehicleSize": "MEDIUM",
+      "ParkingSize": "MEDIUM",
+      "Date": "2022-5-4 7:38:16",
+      "Fee": 40,
+      "Year": 2022,
+      "Month": 5,
+      "Day": 4,
+      "Hours": 11,
+      "Minutes": 38,
+      "Seconds": 16
+    },
+    {
+      "id": "70QzOlILxsHEr7Qq2XNLk",
+      "VehiclePlate": "leni 2022",
+      "VehicleSize": "LARGE",
+      "ParkingSize": "LARGE",
+      "Date": "2022-5-4 7:38:26",
+      "Fee": 40,
+      "Year": 2022,
+      "Month": 5,
+      "Day": 4,
+      "Hours": 11,
+      "Minutes": 38,
+      "Seconds": 26
+    },
+    {
+      "id": "qYaZzkCjHRQykp9gnROE2",
+      "VehiclePlate": "bbm 2022",
+      "VehicleSize": "SMALL",
+      "ParkingSize": "SMALL",
+      "Date": "2022-5-5 11:39:44",
+      "Fee": 40,
+      "Year": 2022,
+      "Month": 5,
+      "Day": 4,
+      "Hours": 11,
+      "Minutes": 39,
+      "Seconds": 44
+    }
+  ]
+}

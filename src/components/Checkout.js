@@ -3,15 +3,15 @@ import { MdArrowBackIos } from "react-icons/md";
 import Clock from "react-clock";
 import "react-clock/dist/Clock.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { nanoid } from "@reduxjs/toolkit";
-import { pakingSelector } from "../reducers/parkingSlice";
+import { deleteParking, getSingleParking } from "../components/action/action";
+import moment from "moment";
 
 const Checkout = () => {
   let { id } = useParams();
-  const parkingSlot = useSelector(pakingSelector);
-  var found = parkingSlot.parkingSlot.find((e) => e.id === id);
-  console.log(found);
+  const dispatch = useDispatch();
+  const { parking } = useSelector((state) => state.data);
   const navigate = useNavigate();
   const [value, setValue] = useState(new Date());
   useEffect(() => {
@@ -23,21 +23,36 @@ const Checkout = () => {
   }, []);
   const [formData, setFormData] = useState({
     id: nanoid(),
-    VehiclePlate: found.VehiclePlate,
-    VehicleSize: found.VehicleSize,
-    ParkingSize: found.ParkingSize,
-    Date: found.Date,
-    Fee: found.Fee,
+    VehiclePlate: "",
+    VehicleSize: "",
+    ParkingSize: "",
+    Date: "",
+    Fee: "",
+    Year: "",
+    Month: "",
+    Day: "",
+    Hours: "",
+    Minutes: "",
+    Seconds: "",
   });
   const handleSubmit = () => {
-    setFormData({
-      VehiclePlate: "",
-      VehicleSize: "",
-      ParkingSize: "",
-      Date: "",
-      Fee: "",
-    });
-    navigate("/");
+    if (window.confirm("Are you sure you want to Cheeck-out?")) {
+      dispatch(deleteParking(id));
+      setFormData({
+        VehiclePlate: "",
+        VehicleSize: "",
+        ParkingSize: "",
+        Date: "",
+        Fee: "",
+        Year: "",
+        Month: "",
+        Day: "",
+        Hours: "",
+        Minutes: "",
+        Seconds: "",
+      });
+      navigate("/");
+    }
   };
 
   var today = new Date();
@@ -51,16 +66,114 @@ const Checkout = () => {
   var time = hours + ":" + minutes + ":" + seconds;
   var dateTime = date + " " + time;
 
-  const charges =
-    today.getFullYear() -
-    found.Year +
-    today.getMonth() +
-    1 -
-    found.Month +
-    today.getDate() -
-    found.Day;
-  const charges_hours = today.getHours() - found.Hours;
-  const TotalCharges = charges + charges_hours > 3 ? 3 - charges_hours : 0;
+  //USE EFFECT
+  useEffect(() => {
+    dispatch(getSingleParking(id));
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (parking) {
+      setFormData({ ...parking });
+    }
+  }, [parking]);
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    const hour = moment(formData.Date).fromNow();
+    switch (hour) {
+      case "1 hours ago":
+        setVal(1);
+        break;
+      case "2 hours ago":
+        setVal(2);
+        break;
+      case "3 hours ago":
+        setVal(3);
+        break;
+      case "4 hours ago":
+        setVal(4);
+        break;
+      case "5 hours ago":
+        setVal(5);
+        break;
+      case "6 hours ago":
+        setVal(6);
+        break;
+      case "7 hours ago":
+        setVal(7);
+        break;
+      case "8 hours ago":
+        setVal(8);
+        break;
+      case "9 hours ago":
+        setVal(9);
+        break;
+      case "10 hours ago":
+        setVal(10);
+        break;
+      case "11 hours ago":
+        setVal(11);
+        break;
+      case "12 hours ago":
+        setVal(12);
+        break;
+      case "13 hours ago":
+        setVal(13);
+        break;
+      case "14 hours ago":
+        setVal(14);
+        break;
+      case "15 hours ago":
+        setVal(15);
+        break;
+      case "16 hours ago":
+        setVal(16);
+        break;
+      case "17 hours ago":
+        setVal(17);
+        break;
+      case "18 hours ago":
+        setVal(18);
+        break;
+      case "19 hours ago":
+        setVal(19);
+        break;
+      case "20 hours ago":
+        setVal(20);
+        break;
+      case "21 hours ago":
+        setVal(21);
+        break;
+      case "22 hours ago":
+        setVal(22);
+        break;
+      case "23 hours ago":
+        setVal(23);
+        break;
+      case "24 hours ago":
+        setVal(24);
+        break;
+      case "in a day":
+        setVal(25);
+        break;
+      default:
+    }
+  }, [dateTime]);
+
+  const TotalCharges = val <= 3 ? 0 : val - 3;
+  const AdditionalCharges =
+    formData.ParkingSize === "SMALL"
+      ? val > 23
+        ? 5000
+        : TotalCharges * 20
+      : formData.ParkingSize === "MEDIUM"
+      ? val > 23
+        ? 5000
+        : TotalCharges * 60
+      : formData.ParkingSize === "LARGE"
+      ? val > 23
+        ? 5000
+        : TotalCharges * 100
+      : TotalCharges;
   return (
     <div className="home-body">
       <div className="home-title">
@@ -83,7 +196,7 @@ const Checkout = () => {
           <div className="data">
             <div className="input_1">
               <label>Vehicle Plate No. : </label>
-              <label>{formData.VehiclePlate.toUpperCase()}</label>
+              <label className="uppercase">{formData.VehiclePlate}</label>
             </div>
             <div className="input_1">
               <label>Vehicle Size : </label>
@@ -107,19 +220,11 @@ const Checkout = () => {
             </div>
             <div className="input_1">
               <label>Additional Charges : </label>
-              <label>
-                {found.ParkingSize === "SMALL"
-                  ? TotalCharges * 20
-                  : found.ParkingSize === "MEDIUM"
-                  ? TotalCharges * 60
-                  : found.ParkingSize === "LARGE"
-                  ? TotalCharges * 100
-                  : TotalCharges}
-              </label>
+              <label>{AdditionalCharges}</label>
             </div>
             <div className="input_1">
               <label>Total Amount : </label>
-              <label>{formData.Fee + charges}</label>
+              <label>{formData.Fee + AdditionalCharges}</label>
             </div>
           </div>
 
